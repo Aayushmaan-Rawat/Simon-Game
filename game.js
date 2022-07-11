@@ -1,23 +1,23 @@
 var buttonColours=["red","blue","green","yellow"];  //array to hold the colours
-var gamePattern=[];//empty array
-var userClickedPattern=[];
+var gamePattern=[];//stores system generated colour pattern.
+var userClickedPattern=[];//stores user entered colour pattern.
 
-var started = false;
-var level = 0;
+var started = false; //initially
+var level = 0; // initially
 
-$(document).keypress(function() {
+$(document).keypress(function() { //This targets the whole document for a key press (for the very first time only) 
   if (!started) {
     $("#level-title").text("Level " + level);
     nextSequence();
     started = true;
   }
-});
+}); 
 
 
-function nextSequence()
+function nextSequence() //flashes a random colour
 {
     userClickedPattern = [];
-    level++;
+    level++; //we increase the level by 1 every time nextSequence() is called.    
     $("#level-title").text("Level " + level);
   var x=Math.random();   //generates random numbers from 0 to 0.999...
   x=x*4;                 //generates no's from  0 to 3.999...
@@ -32,7 +32,7 @@ function nextSequence()
 
 
 
-$(".btn").click(function()                           
+$(".btn").click(function() // whenever the user clicks on a button then this function is triggered.                    
 {
    var userChosenColour= $(this).attr("id");    // to get the particular colour corresponding to the user click 
    userClickedPattern.push(userChosenColour);  // Add the contents of the variable userChosenColour to the end of this new userClickedPattern array
@@ -46,7 +46,7 @@ $(".btn").click(function()
 function playSound(name)   // seperate function to play audio
 { 
     var audio = new Audio( name+ ".mp3"); // JS code to play the sound for the random button colour selected
-    audio.play();
+    audio.play();// play the audio
 }
 
 
@@ -58,12 +58,15 @@ function animatePress(currentColour)    // function to perform animation on the 
 },100);
 }
 
-function checkAnswer(currentLevel) {
+//Call checkAnswer() after a user has clicked and chosen their answer, 
+//passing in the index of the last answer in the user's sequence.
+//e.g. If the user has pressed red, green, red, yellow, the index of the last answer is 3.
+function checkAnswer(currentLevel) { 
 
     if (gamePattern[currentLevel] === userClickedPattern[currentLevel])  
      {
       if (userClickedPattern.length === gamePattern.length){
-        setTimeout(function () {
+        setTimeout(function () {  //Call nextSequence() after a 1000 millisecond delay.
           nextSequence();
         }, 1000);
       }
@@ -80,10 +83,10 @@ function checkAnswer(currentLevel) {
       startOver();
     }
 }
-function startOver()
+function startOver()//reset the game
 {
   level=0;
-  gamePattern=[];
+  gamePattern=[]
   started=false;
 }
   
